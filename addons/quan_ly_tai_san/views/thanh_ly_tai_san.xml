@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_thanh_ly_search" model="ir.ui.view">
+            <field name="name">thanh.ly.search</field>
+            <field name="model">thanh_ly_tai_san</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="ma_phieu_thanh_ly"/>
+                    <field name="tai_san_id"/>
+                    <filter string="Chờ duyệt" name="pending" domain="[('trang_thai', '=', 'wait_finance')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Trạng thái" name="group_status" context="{'group_by': 'trang_thai'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_thanh_ly_tree" model="ir.ui.view">
+            <field name="name">thanh.ly.tree</field>
+            <field name="model">thanh_ly_tai_san</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="trang_thai == 'wait_finance'" decoration-success="trang_thai == 'approved'">
+                    <field name="ma_phieu_thanh_ly"/>
+                    <field name="ngay_thanh_ly"/>
+                    <field name="tai_san_id"/>
+                    <field name="gia_tri_thanh_ly"/>
+                    <field name="trang_thai" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_thanh_ly_form" model="ir.ui.view">
+            <field name="name">thanh.ly.form</field>
+            <field name="model">thanh_ly_tai_san</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_gui_duyet" string="Gửi duyệt" type="object" class="oe_highlight" 
+                                states="draft"/> <button name="action_duyet" string="Phê duyệt (Kế toán)" type="object" class="btn-success" 
+                                states="wait_finance" groups="account.group_account_user"/> <button name="action_huy" string="Hủy bỏ" type="object" 
+                                states="draft,wait_finance"/>
+                        
+                        <field name="trang_thai" widget="statusbar" statusbar_visible="draft,wait_finance,approved"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="ma_phieu_thanh_ly" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="Thông tin tài sản">
+                                <field name="tai_san_id" options="{'no_create': True}"/>
+                                <field name="ngay_thanh_ly"/>
+                                <field name="ly_do"/>
+                            </group>
+                            <group string="Giá trị &amp; Kế toán">
+                                <field name="gia_tri_thanh_ly" widget="monetary"/>
+                                <field name="chi_phi_thanh_ly" widget="monetary"/>
+                                </group>
+                        </group>
+                    </sheet>
+                    </form>
+            </field>
+        </record>
+    </data>
+</odoo>
