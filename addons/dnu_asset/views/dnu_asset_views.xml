@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dnu_asset_tree" model="ir.ui.view">
+        <field name="name">dnu.asset.tree</field>
+        <field name="model">dnu.asset</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="location"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dnu_asset_form" model="ir.ui.view">
+        <field name="name">dnu.asset.form</field>
+        <field name="model">dnu.asset</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="user_id"/>
+                        <field name="location"/>
+                        <field name="state"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="menu_dnu_asset_root" name="Tài sản DNU"/>
+    <menuitem id="menu_dnu_asset" name="Danh sách tài sản" parent="menu_dnu_asset_root" action="action_dnu_asset"/>
+
+    <record id="action_dnu_asset" model="ir.actions.act_window">
+        <field name="name">Tài sản DNU</field>
+        <field name="res_model">dnu.asset</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

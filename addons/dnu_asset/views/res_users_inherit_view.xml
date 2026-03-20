@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_employee_assets_form" model="ir.ui.view">
+        <field name="name">hr.employee.assets.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Tài sản">
+                    <field name="asset_ids">
+                        <tree editable="bottom">
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="location"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

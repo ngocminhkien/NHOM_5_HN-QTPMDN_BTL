@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dnu_asset_accounting,access_dnu_asset_accounting,model_dnu_asset,base.group_user,1,1,1,1
+access_dnu_asset_depreciation_line,access_dnu_asset_depreciation_line,model_dnu_asset_depreciation_line,base.group_user,1,1,1,1

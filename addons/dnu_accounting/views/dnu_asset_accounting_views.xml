@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dnu_asset_form_accounting" model="ir.ui.view">
+        <field name="name">dnu.asset.form.accounting</field>
+        <field name="model">dnu.asset</field>
+        <field name="inherit_id" ref="dnu_asset.view_dnu_asset_form"/>
+        <field name="arch" type="xml">
+            <sheet>
+                <group>
+                    <field name="account_id"/>
+                    <field name="depreciation_method"/>
+                    <field name="depreciated_amount"/>
+                </group>
+                <group>
+                    <field name="depreciation_line_ids">
+                        <tree editable="bottom">
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="state"/>
+                            <field name="account_move_id"/>
+                        </tree>
+                    </field>
+                </group>
+            </sheet>
+        </field>
+    </record>
+</odoo>
