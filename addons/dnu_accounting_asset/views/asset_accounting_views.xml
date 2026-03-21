@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tai_san_form_inherit_accounting" model="ir.ui.view">
+        <field name="name">tai.san.form.inherit.accounting</field>
+        <field name="model">tai_san</field>
+        <field name="inherit_id" ref="quan_ly_tai_san.view_tai_san_form"/> <field name="arch" type="xml">
+            
+            <xpath expr="//header" position="inside">
+                <button name="action_confirm_usage" string="Xác nhận bắt đầu sử dụng" type="object" class="oe_highlight"/>
+            </xpath>
+
+            <xpath expr="//sheet/group" position="after">
+                <group string="Cấu hình Khấu hao &amp; Kế toán">
+                    <group>
+                        <field name="method"/>
+                        <field name="duration"/>
+                        <field name="depreciated_value"/>
+                        <field name="remaining_value"/>
+                    </group>
+                    <group>
+                        <field name="account_asset_id"/>
+                        <field name="account_depreciation_id"/>
+                    </group>
+                </group>
+            </xpath>
+            
+            <xpath expr="//notebook" position="inside">
+                <page string="Bảng khấu hao">
+                    <field name="depreciation_line_ids" readonly="1">
+                        <tree decoration-success="state == 'posted'"> 
+                            <field name="depreciation_date"/>
+                            <field name="amount"/>
+                            <field name="state"/>
+                            <field name="move_id" widget="many2one_button"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

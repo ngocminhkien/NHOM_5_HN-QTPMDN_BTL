@@ -29,7 +29,7 @@
                     <field name="ma_tai_san"/>
                     <field name="ten_tai_san"/>
                     <field name="danh_muc_ts_id"/>
-                    <field name="nguoi_quan_ly_id" widget="many2one_avatar_user"/>
+                    <field name="nguoi_quan_ly_id"/>
                     <field name="bo_phan_su_dung_id"/>
                     <field name="ngay_mua_ts"/>
                     <field name="gia_tri_hien_tai" sum="Tổng giá trị" widget="monetary" options="{'currency_field': 'don_vi_tien_te'}"/>
@@ -82,7 +82,7 @@
                             <page string="Quản lý (Hội nhập)">
                                 <group>
                                     <group string="Nhân sự (HRM)">
-                                        <field name="nguoi_quan_ly_id" widget="many2one_avatar_user"/>
+                                        <field name="nguoi_quan_ly_id"/>
                                         <field name="bo_phan_su_dung_id"/>
                                     </group>
                                     <group string="Kế toán (Accounting)">
