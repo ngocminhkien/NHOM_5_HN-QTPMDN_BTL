@@ -29,9 +29,9 @@
     # Bắt buộc phải có 'hr' và 'account' để code không bị lỗi khi liên kết
     'depends': [
         'base',
-        'hr',           # Module Nhân sự gốc
-        'account',      # Module Kế toán gốc
-        'mail',         # Module Chat/Lịch sử
+        'mail',           # Module Nhân sự gốc
+        'hr',      # Module Kế toán gốc
+        'account',         # Module Chat/Lịch sử
     ],
 
     # --- PHẦN2: DATA (CÁC FILE GIAO DIỆN) ---

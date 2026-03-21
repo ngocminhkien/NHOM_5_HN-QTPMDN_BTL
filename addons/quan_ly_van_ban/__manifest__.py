@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'web'], # Chỉ để lại base và web để module được nạp
 
     # always loaded
     'data': [

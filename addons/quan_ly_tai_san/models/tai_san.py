@@ -20,7 +20,14 @@ class TaiSan(models.Model):
     ma_tai_san = fields.Char('Mã tài sản', required=True, tracking=True) # Thêm tracking=True để lưu lịch sử sửa đổi
     ten_tai_san = fields.Char('Tên tài sản', required=True, tracking=True)
     ngay_mua_ts = fields.Date('Ngày mua tài sản', required=True, default=fields.Date.context_today)
+    account_id = fields.Many2one('account.account', string="Tài khoản kế toán", domain=[('deprecated', '=', False)])
     
+    # TRƯỜNG TRẠNG THÁI MỨC 2
+    state = fields.Selection([
+        ('draft', 'Nháp'),
+        ('in_use', 'Đang sử dụng'),
+    ], default='draft', string="Trạng thái", tracking=True)
+
     don_vi_tien_te = fields.Selection([
         ('vnd', 'VNĐ'),
         ('usd', '$'),
@@ -77,11 +84,21 @@ class TaiSan(models.Model):
         ('chua_thanh_ly', 'Chưa thanh lý'),
         ('da_phan_bo', 'Đã phân bổ'),
         ('da_thanh_ly', 'Đã thanh lý'),
+        ('draft', 'Nháp'),
     ], string='Trạng thái sử dụng', compute='_compute_trang_thai_thanh_ly', default='chua_phan_bo', store=True)
 
     lich_su_ky_thuat_ids = fields.One2many(comodel_name='lich_su_ky_thuat', inverse_name='tai_san_id', string='Tình trạng kỹ thuật')
 
     # --- 7. CÁC HÀM LOGIC (METHODS) ---
+
+    # HÀM XÁC NHẬN MỨC 2
+    def action_confirm(self):
+        for record in self:
+            if not record.account_id:
+                raise ValidationError("Vui lòng chọn tài khoản kế toán trước khi xác nhận!")
+            record.state = 'in_use'
+            # Cập nhật thêm trạng thái sử dụng để đồng bộ với logic cũ của bạn
+            record.trang_thai_thanh_ly = 'chua_thanh_ly'
     
     @api.depends('ten_tai_san', 'ma_tai_san')
     def _compute_cus_rec_name(self):
@@ -96,6 +113,7 @@ class TaiSan(models.Model):
             elif record.phong_ban_su_dung_ids:
                 record.trang_thai_thanh_ly = 'da_phan_bo'
             else:
+                # Nếu chưa có lịch sử gì thì giữ ở trạng thái nháp hoặc chưa phân bổ
                 record.trang_thai_thanh_ly = 'chua_phan_bo'
 
     def _compute_kiem_ke_history_ids(self):
@@ -124,6 +142,9 @@ class TaiSan(models.Model):
     # --- HÀM TÍNH KHẤU HAO (AUTOMATION) ---
     def action_tinh_khau_hao(self):
         for record in self:
+            if record.state != 'in_use':
+                raise ValidationError("Tài sản phải ở trạng thái 'Đang sử dụng' mới có thể tính khấu hao!")
+                
             if record.gia_tri_hien_tai <= 0:
                 raise ValidationError("Giá trị hiện tại phải lớn hơn 0 !")
             if record.pp_khau_hao == 'none':
@@ -157,10 +178,6 @@ class TaiSan(models.Model):
             record.gia_tri_hien_tai = max(0, record.gia_tri_hien_tai - so_tien_khau_hao)
             record.thoi_gian_su_dung += 1
 
-            # --- GỌI HÀM TẠO BÚT TOÁN KẾ TOÁN ---
-            # if record.tai_khoan_khau_hao_id and record.tai_khoan_chi_phi_id:
-            #     khau_hao_rec.create_account_entry() 
-
             # Thông báo thành công
             self.env['bus.bus']._sendone(
                 self.env.user.partner_id, 
@@ -172,3 +189,15 @@ class TaiSan(models.Model):
                     'type': 'success'  
                 }
             )
+
+    # --- HÀM TẠO ACTIVITY THU HỒI TÀI SẢN ---
+    def create_return_activity(self):
+        # Tìm quản lý hoặc người phụ trách (mặc định lấy user đang thao tác)
+        user_id = self.env.user.id 
+        self.env['mail.activity'].create({
+            'res_id': self.id,
+            'res_model_id': self.env['ir.model']._get('tai_san').id,
+            'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
+            'summary': 'Thu hồi tài sản từ nhân viên đã nghỉ việc',
+            'user_id': user_id,
+        })
