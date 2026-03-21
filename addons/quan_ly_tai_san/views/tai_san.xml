@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="view_tai_san_search" model="ir.ui.view">
             <field name="name">tai.san.search</field>
             <field name="model">tai_san</field>
@@ -15,7 +14,7 @@
                     <group expand="0" string="Nhóm theo">
                         <filter string="Loại tài sản" name="group_by_category" context="{'group_by': 'danh_muc_ts_id'}"/>
                         <filter string="Bộ phận sử dụng" name="group_by_department" context="{'group_by': 'bo_phan_su_dung_id'}"/>
-                        <filter string="Trạng thái" name="group_by_status" context="{'group_by': 'trang_thai_thanh_ly'}"/>
+                        <filter string="Trạng thái" name="group_by_status" context="{'group_by': 'state'}"/>
                     </group>
                 </search>
             </field>
@@ -25,7 +24,7 @@
             <field name="name">tai.san.tree</field>
             <field name="model">tai_san</field>
             <field name="arch" type="xml">
-                <tree string="Danh sách Tài sản" decoration-muted="trang_thai_thanh_ly == 'da_thanh_ly'">
+                <tree string="Danh sách Tài sản" decoration-muted="state == 'in_use'">
                     <field name="ma_tai_san"/>
                     <field name="ten_tai_san"/>
                     <field name="danh_muc_ts_id"/>
@@ -34,9 +33,9 @@
                     <field name="ngay_mua_ts"/>
                     <field name="gia_tri_hien_tai" sum="Tổng giá trị" widget="monetary" options="{'currency_field': 'don_vi_tien_te'}"/>
                     <field name="don_vi_tien_te" invisible="1"/>
-                    <field name="trang_thai_thanh_ly" widget="badge" 
-                           decoration-success="trang_thai_thanh_ly == 'da_thanh_ly'" 
-                           decoration-info="trang_thai_thanh_ly == 'da_phan_bo'"/>
+                    <field name="state" widget="badge" 
+                           decoration-success="state == 'in_use'" 
+                           decoration-info="state == 'draft'"/>
                 </tree>
             </field>
         </record>
@@ -47,12 +46,15 @@
             <field name="arch" type="xml">
                 <form string="Thông tin Tài sản">
                     <header>
+                        <button name="action_confirm" string="Xác nhận" type="object" 
+                                class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        
                         <button name="action_tinh_khau_hao" string="Tính Khấu Hao Ngay" type="object" 
-                                class="oe_highlight" 
                                 attrs="{'invisible': [('pp_khau_hao', '=', 'none')]}"/>
                         
-                        <field name="trang_thai_thanh_ly" widget="statusbar"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,in_use"/>
                     </header>
+                    
                     <sheet>
                         <field name="hinh_anh" widget="image" class="oe_avatar"/>
                         
@@ -86,18 +88,20 @@
                                         <field name="bo_phan_su_dung_id"/>
                                     </group>
                                     <group string="Kế toán (Accounting)">
+                                        <field name="account_id" placeholder="Gõ 211 hoặc 642..."/>
                                         <field name="tai_khoan_khau_hao_id" placeholder="Chọn TK 214..."/>
                                         <field name="tai_khoan_chi_phi_id" placeholder="Chọn TK 642..."/>
                                     </group>
                                 </group>
                             </page>
 
-                            <page string="Lịch sử Khấu hao">
+                            <page string="Khấu hao" name="depreciation_tab">
                                 <field name="lich_su_khau_hao_ids">
                                     <tree editable="bottom" create="0">
                                         <field name="ngay_khau_hao"/>
-                                        <field name="so_tien_khau_hao"/>
+                                        <field name="so_tien_khau_hao" sum="Tổng khấu hao"/>
                                         <field name="gia_tri_con_lai"/>
+                                        <field name="loai_phieu"/>
                                         <field name="ghi_chu"/>
                                     </tree>
                                 </field>
@@ -127,7 +131,8 @@
                 </form>
             </field>
         </record>
-		<record id="action_tai_san" model="ir.actions.act_window">
+
+        <record id="action_tai_san" model="ir.actions.act_window">
             <field name="name">Quản lý Tài sản</field>
             <field name="res_model">tai_san</field>
             <field name="view_mode">tree,form</field>
