@@ -33,8 +33,4 @@
         'views/danh_sach_chung_chi_bang_cap.xml',
         'views/menu.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
 }

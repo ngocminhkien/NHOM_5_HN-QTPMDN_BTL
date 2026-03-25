@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- GOM NHÓM QUYỀN (Module Category) -->
+        <record id="module_category_dnu_asset" model="ir.module.category">
+            <field name="name">Quản lý Tài sản</field>
+            <field name="description">Phân mức quyền truy cập DNU Asset</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- NHÓM 1: CÁN BỘ TÀI SẢN -->
+        <record id="group_dnu_asset_user" model="res.groups">
+            <field name="name">Cán bộ Tài sản</field>
+            <field name="category_id" ref="module_category_dnu_asset"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Chỉ xem những tài sản do chính nhân sự này quản lý.</field>
+        </record>
+
+        <!-- NHÓM 2: QUẢN LÝ TÀI SẢN -->
+        <record id="group_dnu_asset_manager" model="res.groups">
+            <field name="name">Quản lý Tài sản</field>
+            <field name="category_id" ref="module_category_dnu_asset"/>
+            <field name="implied_ids" eval="[(4, ref('group_dnu_asset_user'))]"/>
+            <field name="comment">Toàn quyền trên các model Tài sản, cấu hình hệ thống.</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- RECORD RULE 1: CÁN BỘ TÀI SẢN -->
+        <record id="rule_dnu_asset_can_bo" model="ir.rule">
+            <field name="name">Cán bộ - Xem tài sản cá nhân</field>
+            <field name="model_id" ref="dnu_asset.model_dnu_asset"/>
+            <!-- Đã sửa thành nhan_vien_id theo đúng module Nhan Su -->
+            <field name="domain_force">[('user_id', '=', user.nhan_vien_id.id)]</field>
+            <field name="groups" eval="[(4, ref('group_dnu_asset_user'))]"/>
+            <!-- Quyền: Cho xem (Read=1), Cấm Ghi/Tạo/Xoá (0) -->
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- RECORD RULE 2: QUẢN LÝ TÀI SẢN -->
+        <record id="rule_dnu_asset_quan_ly" model="ir.rule">
+            <field name="name">Quản lý - Toàn quyền tài sản</field>
+            <field name="model_id" ref="dnu_asset.model_dnu_asset"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_dnu_asset_manager'))]"/>
+            <!-- Phân quyền R/W/C/U = 1 -->
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+    </data>
+</odoo>

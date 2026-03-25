@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 1. Cấu hình Action gọi lệnh In -->
+        <record id="action_report_asset_handover" model="ir.actions.report">
+            <field name="name">Biên bản bàn giao tài sản</field>
+            <field name="model">dnu.asset</field>
+            <field name="report_type">qweb-pdf</field>
+            <!-- Định danh chính xác theo cấu trúc: [tên_thư_mục_chứa_báo_cáo].[id_template] -->
+            <field name="report_name">dnu_accounting_asset.report_asset_handover_template</field>
+            <field name="report_file">dnu_accounting_asset.report_asset_handover_template</field>
+            <field name="print_report_name">'Bàn giao - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="dnu_asset.model_dnu_asset"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- 2. Thiết kế Layout QWEB PDF -->
+        <template id="report_asset_handover_template">
+            <!-- Gói chung vào một layout chuẩn (Kèm Footer Odoo nếu có) -->
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page" style="font-family: Arial, sans-serif; color: #333;">
+                            
+                            <!-- Tiêu đề -->
+                            <h2 class="text-center" style="margin-top: 30px; font-weight: bold; text-transform: uppercase;">
+                                BIÊN BẢN BÀN GIAO TÀI SẢN
+                            </h2>
+                            <p class="text-right">Ngày lập: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></p>
+                            <hr style="border-top: 2px solid #000;"/>
+
+                            <!-- Thông tin các bên -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h4>1. ĐẠI DIỆN BÊN GIAO (CÔNG TY)</h4>
+                                    <p><strong>Bên giao:</strong> Đại diện Phòng Hành chính Nhân sự</p>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <h4>2. ĐẠI DIỆN BÊN NHẬN TÀI SẢN</h4>
+                                    <p><strong>Họ và tên:</strong> <span t-field="doc.user_id.ho_va_ten"/></p>
+                                    <p><strong>Mã nhân viên / Chức vụ:</strong> <span t-field="doc.user_id.ma_dinh_danh"/> - <span t-field="doc.user_id.don_vi_id.ten_don_vi"/></p>
+                                </div>
+                            </div>
+
+                            <!-- List Tài sản -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h4>3. DANH MỤC THIẾT BỊ BÀN GIAO</h4>
+                                    <table class="table table-bordered table-sm">
+                                        <thead class="thead-light text-center">
+                                            <tr>
+                                                <th style="width: 15%">Mã tài sản</th>
+                                                <th style="width: 35%">Tên thiết bị</th>
+                                                <th style="width: 15%">Loại</th>
+                                                <th style="width: 15%">Vị trí</th>
+                                                <th style="width: 20%">Nguyên giá</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="text-center">
+                                                <td><span t-field="doc.code"/></td>
+                                                <td><span t-field="doc.name"/></td>
+                                                <td><span t-field="doc.danh_muc_ts_id.name"/></td>
+                                                <td><span t-field="doc.location"/></td>
+                                                <td class="text-right">
+                                                    <span t-field="doc.gia_tri_ban_dau" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Tracking Code & Điều khoản -->
+                            <div class="row mt-4" style="page-break-inside: avoid;">
+                                <div class="col-8">
+                                    <h4>4. CAM KẾT VÀ ĐIỀU KHOẢN</h4>
+                                    <ul style="line-height: 1.8;">
+                                        <li>Bên B (Bên nhận) xác nhận đã kiểm tra kỹ tình trạng tài sản và nhận đủ các linh kiện kèm theo.</li>
+                                        <li>Bên B cam kết sử dụng tài sản đúng mục đích phục vụ công việc chuyên môn.</li>
+                                        <li>Tuyệt đối không tự ý sao chép, tráo đổi linh kiện hoặc thay đổi thiết kế cấu trúc máy móc.</li>
+                                        <li>Khi có thông báo nghỉ việc hoặc bảo trì, Bên B phải bàn giao đúng nguyên trạng (Đã tính hao mòn theo biên bản Khấu hao hệ thống ERP).</li>
+                                    </ul>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <h4 style="margin-bottom: 10px;">Tem Mã hóa Tracking</h4>
+                                    <!-- Hiển thị Base64 Image rút lõi từ Database bytea -->
+                                    <img t-if="doc.qr_image" t-attf-src="data:image/png;base64,{{ doc.qr_image.decode('utf-8') }}" style="width: 160px; height: 160px; border: 2px dashed #666; padding: 5px;"/>
+                                    <p class="mt-2" style="font-size: 11px;"><em>(Quét mã QR để ký số xác nhận trên module Điện thoại)</em></p>
+                                </div>
+                            </div>
+                            
+                            <!-- Chữ ký -->
+                            <div class="row mt-5" style="page-break-inside: avoid;">
+                                <div class="col-6 text-center">
+                                    <strong>ĐẠI DIỆN BÊN GIAO</strong><br/>
+                                    <em>(Ký, ghi rõ họ tên)</em>
+                                    <br/><br/><br/><br/>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <strong>ĐẠI DIỆN BÊN NHẬN</strong><br/>
+                                    <em>(Ký, ghi rõ họ tên)</em>
+                                    <br/><br/><br/><br/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

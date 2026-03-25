@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_hr_employee_assets_form" model="ir.ui.view">
-        <field name="name">hr.employee.assets.form</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_form"/>
+    <record id="view_nhan_vien_assets_form" model="ir.ui.view">
+        <field name="name">nhan.vien.assets.form</field>
+        <field name="model">nhan_vien</field>
+        <!-- Sửa External ID từ hr.view_employee_form thành nhan_su.view_nhan_vien_form -->
+        <field name="inherit_id" ref="nhan_su.view_nhan_vien_form"/>
         <field name="arch" type="xml">
-            <notebook position="inside">
-                <page string="Tài sản">
+            <xpath expr="//notebook" position="inside">
+                <page string="Tài sản (Quản lý cấp phát)">
                     <field name="asset_ids">
                         <tree editable="bottom">
                             <field name="code"/>
@@ -16,7 +17,7 @@
                         </tree>
                     </field>
                 </page>
-            </notebook>
+            </xpath>
         </field>
     </record>
 </odoo>

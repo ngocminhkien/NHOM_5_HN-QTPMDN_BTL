@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_dnu_asset,access_dnu_asset,model_dnu_asset,base.group_user,1,1,1,1
+access_dnu_asset_user,access.dnu_asset.user,model_dnu_asset,group_dnu_asset_user,1,0,0,0
+access_dnu_asset_manager,access.dnu_asset.manager,model_dnu_asset,group_dnu_asset_manager,1,1,1,1
+access_dnu_asset_category_user,access.dnu_asset_category.user,model_dnu_asset_category,group_dnu_asset_user,1,0,0,0
+access_dnu_asset_category_manager,access.dnu_asset_category.manager,model_dnu_asset_category,group_dnu_asset_manager,1,1,1,1

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_nhan_vien_form_inherit_dnu_asset" model="ir.ui.view">
+        <field name="name">nhan_vien.form.inherit.dnu.asset</field>
+        <field name="model">nhan_vien</field>
+        <!-- Trỏ External ID tới bản thiết kế form gốc của module nhan_su -->
+        <field name="inherit_id" ref="nhan_su.view_nhan_vien_form"/>
+        <field name="arch" type="xml">
+            <!-- Chèn thêm một Page vào trong thẻ notebook -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Tài sản đang giữ">
+                    <!-- Read-only List theo yêu cầu (Chỉ để theo dõi, chỉnh sửa phải sang phân hệ Tài Sản) -->
+                    <field name="tai_san_ids" readonly="1">
+                        <tree>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="state"/>
+                            <field name="location"/>
+                            <field name="remaining_value"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

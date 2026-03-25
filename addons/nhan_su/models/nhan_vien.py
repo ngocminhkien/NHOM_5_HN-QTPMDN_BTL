@@ -30,9 +30,44 @@ class NhanVien(models.Model):
         inverse_name="nhan_vien_id", 
         string = "Danh sách chứng chỉ bằng cấp")
     so_nguoi_bang_tuoi = fields.Integer("Số người bằng tuổi", 
-                                        compute="so_nguoi_bang_tuoi",
+                                        compute="_compute_so_nguoi_bang_tuoi",
                                         store=True
                                         )
+
+    # ===== LIÊN KẾT CHÉO MODULE DNU_ASSET =====
+    trang_thai = fields.Selection([
+        ('dang_lam', 'Đang làm việc'),
+        ('nghi_viec', 'Nghỉ việc')
+    ], string='Trạng thái', default='dang_lam')
+
+    don_vi_id = fields.Many2one('don_vi', string='Phòng ban')
+
+    @api.constrains('trang_thai')
+    def _check_thu_hoi_tai_san_khi_nghi_viec(self):
+        for record in self:
+            if record.trang_thai == 'nghi_viec':
+                # Tìm xem nhân viên này có đang giữ tài sản nào của dnu.asset không
+                assets = self.env['dnu.asset'].search([
+                    ('user_id', '=', record.id),
+                    ('state', '=', 'in_use')
+                ])
+                if assets:
+                    ten_tai_san = ', '.join(assets.mapped('name'))
+                    raise ValidationError(f"Không thể cho nghỉ việc! Nhân viên đang giữ tài sản: {ten_tai_san}. Vui lòng thu hồi trước.")
+
+    def write(self, vals):
+        res = super(NhanVien, self).write(vals)
+        # Tự động cập nhật phòng ban cho tài sản đang giữ bên dnu_asset
+        if 'don_vi_id' in vals:
+            for record in self:
+                if record.don_vi_id:
+                    assets = self.env['dnu.asset'].search([
+                        ('user_id', '=', record.id),
+                        ('state', '=', 'in_use')
+                    ])
+                    # Update thẳng trường phong_ban_su_dung_id
+                    assets.write({'phong_ban_su_dung_id': record.don_vi_id.id})
+        return res
     
     @api.depends("tuoi")
     def _compute_so_nguoi_bang_tuoi(self):

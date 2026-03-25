@@ -5,23 +5,25 @@
         <field name="model">dnu.asset</field>
         <field name="inherit_id" ref="dnu_asset.view_dnu_asset_form"/>
         <field name="arch" type="xml">
-            <sheet>
-                <group>
-                    <field name="account_id"/>
-                    <field name="depreciation_method"/>
-                    <field name="depreciated_amount"/>
+            <xpath expr="//sheet" position="inside">
+                <!-- Ẩn giao diện để nhường chỗ cho module dnu_accounting_asset thể hiện chi tiết -->
+                <group invisible="1">
+                    <field name="account_asset_id"/>
+                    <field name="method"/>
+                    <field name="depreciated_value"/>
                 </group>
-                <group>
+                <group invisible="1">
                     <field name="depreciation_line_ids">
                         <tree editable="bottom">
-                            <field name="date"/>
+                            <!-- Cập nhật lại tên chuẩn theo đúng Python model mới -->
+                            <field name="depreciation_date"/>
                             <field name="amount"/>
                             <field name="state"/>
-                            <field name="account_move_id"/>
+                            <field name="move_id"/>
                         </tree>
                     </field>
                 </group>
-            </sheet>
+            </xpath>
         </field>
     </record>
 </odoo>

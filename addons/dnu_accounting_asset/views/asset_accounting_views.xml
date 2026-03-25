@@ -1,41 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_tai_san_form_inherit_accounting" model="ir.ui.view">
-        <field name="name">tai.san.form.inherit.accounting</field>
-        <field name="model">tai_san</field>
-        <field name="inherit_id" ref="quan_ly_tai_san.view_tai_san_form"/> <field name="arch" type="xml">
+    <!-- GIAO DIỆN FORM KẾ THỪA TRỰC TIẾP CỦA dnu.asset -->
+    <record id="view_dnu_asset_form_inherit_accounting" model="ir.ui.view">
+        <field name="name">dnu.asset.form.inherit.accounting</field>
+        <field name="model">dnu.asset</field>
+        <field name="inherit_id" ref="dnu_asset.view_dnu_asset_form"/> 
+        <field name="arch" type="xml">
             
-            <xpath expr="//header" position="inside">
-                <button name="action_confirm_usage" string="Xác nhận bắt đầu sử dụng" type="object" class="oe_highlight"/>
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="%(dnu_accounting_asset.action_report_asset_handover)d" string="🖨️ In Biên bản" type="action" class="btn-info"/>
+                    <button name="action_confirm_usage" string="Xác nhận sử dụng &amp; Tính khấu hao" type="object" class="oe_highlight" states="new"/>
+                    <button name="action_open_disposal_wizard" string="Thanh lý Lỗ/Lãi" type="object" class="btn-danger" states="in_use"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//sheet/group" position="before">
+                <!-- SMART BUTTONS (HÀNH ĐỘNG NHANH) -->
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_accounting_moves" type="object" class="oe_stat_button" icon="fa-book">
+                        <field name="move_count" widget="statinfo" string="Sổ Cái"/>
+                    </button>
+                    <button name="action_view_handover_history" type="object" class="oe_stat_button" icon="fa-history">
+                        <div class="o_stat_info"><span class="o_stat_text">Lịch sử Bàn giao</span></div>
+                    </button>
+                </div>
             </xpath>
 
             <xpath expr="//sheet/group" position="after">
-                <group string="Cấu hình Khấu hao &amp; Kế toán">
+                <group string="Chi tiết Mua sắm &amp; Hạch toán">
+                    <group>
+                        <field name="danh_muc_ts_id"/>
+                        <field name="ngay_mua_ts"/>
+                        <field name="ngay_bat_dau_khau_hao"/>
+                        <field name="ngay_bao_tri"/>
+                    </group>
+                    <group>
+                        <field name="gia_tri_ban_dau"/>
+                        <field name="depreciated_value"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                </group>
+
+                <group string="Cấu hình Khấu hao">
                     <group>
                         <field name="method"/>
                         <field name="duration"/>
-                        <field name="depreciated_value"/>
-                        <field name="remaining_value"/>
+                        <field name="khau_hao_moi_thang"/>
                     </group>
                     <group>
                         <field name="account_asset_id"/>
                         <field name="account_depreciation_id"/>
                     </group>
                 </group>
-            </xpath>
-            
-            <xpath expr="//notebook" position="inside">
-                <page string="Bảng khấu hao">
-                    <field name="depreciation_line_ids" readonly="1">
-                        <tree decoration-success="state == 'posted'"> 
-                            <field name="depreciation_date"/>
-                            <field name="amount"/>
-                            <field name="state"/>
-                            <field name="move_id" widget="many2one_button"/>
-                        </tree>
-                    </field>
-                </page>
+                <notebook>
+                    <page string="Lịch trình Tính khấu hao Tương lai">
+                        <field name="depreciation_line_ids" readonly="1">
+                            <tree decoration-success="state == 'posted'"> 
+                                <field name="depreciation_date"/>
+                                <field name="amount"/>
+                                <field name="state"/>
+                                <field name="move_id" widget="many2one_button"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
             </xpath>
         </field>
     </record>
+
+    <!-- DASHBOARD: PIVOT VIEW TỐI ƯU SQL AGGREGATION -->
+    <record id="view_dnu_asset_pivot_dashboard" model="ir.ui.view">
+        <field name="name">dnu.asset.pivot.dashboard</field>
+        <field name="model">dnu.asset</field>
+        <field name="arch" type="xml">
+            <pivot string="Báo cáo Tài chính Tài sản" display_quantity="true">
+                <field name="danh_muc_ts_id" type="row"/>
+                <field name="ngay_mua_ts" type="col" interval="month"/>
+                <field name="gia_tri_ban_dau" type="measure"/>
+                <field name="remaining_value" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_dnu_asset_dashboard" model="ir.actions.act_window">
+        <field name="name">Báo cáo Khấu hao</field>
+        <field name="res_model">dnu.asset</field>
+        <field name="view_mode">pivot,graph</field>
+    </record>
+
+    <menuitem id="menu_dnu_asset_dashboard_root" name="Báo cáo Kế toán Tài sản"/>
+    <menuitem id="menu_dnu_asset_dashboard" name="Lợi nhuận - Khấu hao" parent="menu_dnu_asset_dashboard_root" action="action_dnu_asset_dashboard" sequence="20"/>
+
+    <!-- WIZARD THANH LÝ FORM VIEW -->
+    <record id="view_dnu_asset_disposal_wizard_form" model="ir.ui.view">
+        <field name="name">dnu.asset.disposal.wizard.form</field>
+        <field name="model">dnu.asset.disposal.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Thanh lý Tài sản">
+                <group>
+                    <field name="asset_id" readonly="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="ngay_thanh_ly"/>
+                    <field name="gia_thanh_ly"/>
+                </group>
+                <footer>
+                    <button name="action_confirm_disposal" string="Đồng ý xuất Khấu hao" type="object" class="btn-primary"/>
+                    <button string="Hủy bỏ" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
 </odoo>

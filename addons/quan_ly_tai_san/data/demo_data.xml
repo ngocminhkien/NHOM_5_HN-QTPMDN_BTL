@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- 1. TẠO DANH MỤC THAM CHIẾU -->
+        <record id="demo_category_it" model="danh_muc_tai_san">
+            <field name="ma_danh_muc_ts">DM_IT</field>
+            <field name="ten_danh_muc_ts">Thiết bị CNTT</field>
+            <field name="mo_ta_danh_muc_ts">Máy tính cá nhân, server, thiết bị mạng...</field>
+        </record>
+        
+        <record id="demo_category_furniture" model="danh_muc_tai_san">
+            <field name="ma_danh_muc_ts">DM_FUR</field>
+            <field name="ten_danh_muc_ts">Nội thất văn phòng</field>
+            <field name="mo_ta_danh_muc_ts">Bàn, ghế, tủ hồ sơ, kệ sắt...</field>
+        </record>
+
+        <!-- 2. TẠO 5 NHÂN VIÊN MẪU (hr.employee) -->
+        <record id="demo_emp_1" model="hr.employee">
+            <field name="name">Nguyễn Văn An</field>
+            <field name="work_email">an.nv@dnu.edu.vn</field>
+            <field name="work_phone">0901234561</field>
+        </record>
+        <record id="demo_emp_2" model="hr.employee">
+            <field name="name">Trần Thị Bích</field>
+            <field name="work_email">bich.tt@dnu.edu.vn</field>
+            <field name="work_phone">0901234562</field>
+        </record>
+        <record id="demo_emp_3" model="hr.employee">
+            <field name="name">Lê Hoàng Cường</field>
+            <field name="work_email">cuong.lh@dnu.edu.vn</field>
+            <field name="work_phone">0901234563</field>
+        </record>
+        <record id="demo_emp_4" model="hr.employee">
+            <field name="name">Phạm Tiến Đạt</field>
+            <field name="work_email">dat.pt@dnu.edu.vn</field>
+            <field name="work_phone">0901234564</field>
+        </record>
+        <record id="demo_emp_5" model="hr.employee">
+            <field name="name">Hoàng Ngọc Dung</field>
+            <field name="work_email">dung.hn@dnu.edu.vn</field>
+            <field name="work_phone">0901234565</field>
+        </record>
+
+        <!-- 3. TẠO 10 TÀI SẢN MẪU (tai_san) -->
+        <!-- Tài sản 1 đến 5 (Thiết bị IT) -->
+        <record id="demo_asset_1" model="tai_san">
+            <field name="ma_tai_san">TS-IT-001</field>
+            <field name="ten_tai_san">Laptop Dell Vostro 3510</field>
+            <field name="ngay_mua_ts">2023-01-15</field>
+            <field name="gia_tri_ban_dau">18000000</field>
+            <field name="gia_tri_hien_tai">18000000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_it"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_1"/>
+            <field name="pp_khau_hao">straight-line</field>
+            <field name="thoi_gian_toi_da">5</field>
+            <field name="don_vi_tinh">Chiếc</field>
+            <field name="state">in_use</field>
+        </record>
+
+        <record id="demo_asset_2" model="tai_san">
+            <field name="ma_tai_san">TS-IT-002</field>
+            <field name="ten_tai_san">Laptop HP ProBook 450 G8</field>
+            <field name="ngay_mua_ts">2022-05-10</field>
+            <field name="gia_tri_ban_dau">22000000</field>
+            <field name="gia_tri_hien_tai">15000000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_it"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_2"/>
+            <field name="pp_khau_hao">straight-line</field>
+            <field name="thoi_gian_toi_da">4</field>
+            <field name="don_vi_tinh">Chiếc</field>
+            <field name="state">in_use</field>
+        </record>
+
+        <record id="demo_asset_3" model="tai_san">
+            <field name="ma_tai_san">TS-IT-003</field>
+            <field name="ten_tai_san">PC Đồ Họa Master</field>
+            <field name="ngay_mua_ts">2023-08-20</field>
+            <field name="gia_tri_ban_dau">35000000</field>
+            <field name="gia_tri_hien_tai">35000000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_it"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_3"/>
+            <field name="pp_khau_hao">degressive</field>
+            <field name="ty_le_khau_hao">20</field>
+            <field name="don_vi_tinh">Bộ</field>
+            <field name="state">in_use</field>
+        </record>
+        
+        <record id="demo_asset_4" model="tai_san">
+            <field name="ma_tai_san">TS-IT-004</field>
+            <field name="ten_tai_san">Máy chiếu Panasonic X1</field>
+            <field name="ngay_mua_ts">2023-11-01</field>
+            <field name="gia_tri_ban_dau">12000000</field>
+            <field name="gia_tri_hien_tai">12000000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_it"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_5"/>
+            <field name="pp_khau_hao">straight-line</field>
+            <field name="thoi_gian_toi_da">5</field>
+            <field name="don_vi_tinh">Chiếc</field>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="demo_asset_5" model="tai_san">
+            <field name="ma_tai_san">TS-IT-005</field>
+            <field name="ten_tai_san">Màn hình Dell Ultrasharp 27"</field>
+            <field name="ngay_mua_ts">2023-01-15</field>
+            <field name="gia_tri_ban_dau">8500000</field>
+            <field name="gia_tri_hien_tai">8500000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_it"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_1"/>
+            <field name="pp_khau_hao">straight-line</field>
+            <field name="thoi_gian_toi_da">5</field>
+            <field name="don_vi_tinh">Chiếc</field>
+            <field name="state">draft</field>
+        </record>
+
+        <!-- Tài sản 6 đến 10 (Nội thất) -->
+        <record id="demo_asset_6" model="tai_san">
+            <field name="ma_tai_san">TS-FUR-001</field>
+            <field name="ten_tai_san">Bàn làm việc Giám đốc bằng gỗ Lim</field>
+            <field name="ngay_mua_ts">2021-02-28</field>
+            <field name="gia_tri_ban_dau">15000000</field>
+            <field name="gia_tri_hien_tai">5000000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_furniture"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_4"/>
+            <field name="pp_khau_hao">straight-line</field>
+            <field name="thoi_gian_toi_da">10</field>
+            <field name="don_vi_tinh">Cái</field>
+            <field name="state">in_use</field>
+        </record>
+
+        <record id="demo_asset_7" model="tai_san">
+            <field name="ma_tai_san">TS-FUR-002</field>
+            <field name="ten_tai_san">Tủ tài liệu thép Hòa Phát</field>
+            <field name="ngay_mua_ts">2022-09-15</field>
+            <field name="gia_tri_ban_dau">4500000</field>
+            <field name="gia_tri_hien_tai">4500000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_furniture"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_4"/>
+            <field name="pp_khau_hao">none</field>
+            <field name="don_vi_tinh">Cái</field>
+            <field name="state">in_use</field>
+        </record>
+
+        <record id="demo_asset_8" model="tai_san">
+            <field name="ma_tai_san">TS-FUR-003</field>
+            <field name="ten_tai_san">Ghế xoay văn phòng lưới</field>
+            <field name="ngay_mua_ts">2023-05-05</field>
+            <field name="gia_tri_ban_dau">1800000</field>
+            <field name="gia_tri_hien_tai">1800000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_furniture"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_3"/>
+            <field name="pp_khau_hao">none</field>
+            <field name="don_vi_tinh">Chiếc</field>
+            <field name="state">in_use</field>
+        </record>
+
+        <record id="demo_asset_9" model="tai_san">
+            <field name="ma_tai_san">TS-FUR-004</field>
+            <field name="ten_tai_san">Bàn họp gỗ MDF 10 người dài</field>
+            <field name="ngay_mua_ts">2020-03-12</field>
+            <field name="gia_tri_ban_dau">12000000</field>
+            <field name="gia_tri_hien_tai">4000000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_furniture"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_5"/>
+            <field name="pp_khau_hao">straight-line</field>
+            <field name="thoi_gian_toi_da">10</field>
+            <field name="don_vi_tinh">Cái</field>
+            <field name="state">in_use</field>
+        </record>
+
+        <record id="demo_asset_10" model="tai_san">
+            <field name="ma_tai_san">TS-FUR-005</field>
+            <field name="ten_tai_san">Kệ sắt V lỗ 5 tầng đục lỗ</field>
+            <field name="ngay_mua_ts">2023-01-01</field>
+            <field name="gia_tri_ban_dau">950000</field>
+            <field name="gia_tri_hien_tai">950000</field>
+            <field name="danh_muc_ts_id" ref="demo_category_furniture"/>
+            <field name="nguoi_quan_ly_id" ref="demo_emp_2"/>
+            <field name="pp_khau_hao">none</field>
+            <field name="don_vi_tinh">Cái</field>
+            <field name="state">draft</field>
+        </record>
+    </data>
+</odoo>
