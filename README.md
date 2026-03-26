@@ -19,7 +19,7 @@ Hệ thống bao gồm hệ sinh thái các module liên kết chặt chẽ vớ
 3. **Thanh lý Tài sản (Asset Disposal):** Wizard ghi nhận tài sản thanh lý. Tự động `cancelled` vạch khấu hao tương lai, đồng thời tạo cụm Bút toán *Ghi giảm TSCĐ*, *Chi tiết cấu thành tài sản* và *Doanh thu thanh lý* nội trong một Database Transaction duy nhất giúp bảo toàn toàn vẹn dữ liệu (ACID).
 4. **QR Code Inventory:** Dynamic Gen mã QR cho phép quét điện thoại trỏ thẳng URL vào hồ sơ tài sản (Form View).
 5. **Dashboard Báo cáo Tài chính (Pivot & Graph):** Ứng dụng SQL Aggregation của Postgres đẩy tải từ Backend Python, phân rã Chi phí khấu hao và Nguyên giá theo "Phòng ban" cực kỳ tối ưu RAM.
-6. **Bảo trì Định kỳ Tự động (Mức 3):** Server check định kỳ rạng sáng, hệ thống tự động chèn Action/Todo nhắc nhở nhân viên 3 ngày trước hạn bảo trì.
+6. **Bảo trì Định kỳ Tự động:** Server check định kỳ rạng sáng, hệ thống tự động chèn Action/Todo nhắc nhở nhân viên 3 ngày trước hạn bảo trì.
 
 ## 🚀 Hướng dẫn Cài đặt
 1. Khởi động môi trường Odoo Service `odoo-bin`.
