@@ -179,7 +179,7 @@ Tự động hóa khấu hao: Xây dựng logic tự động trích lập bảng
 Báo cáo Pivot đa chiều: Cung cấp bảng phân tích tài chính chuyên sâu, cho phép theo dõi giá trị còn lại và mức khấu hao lũy kế theo từng loại tài sản và thời gian.
 
 Dashboard phân tích trực quan: Hệ thống biểu đồ tròn, cột và đường giúp ban lãnh đạo theo dõi cơ cấu tài sản và biến động chi phí một cách nhanh chóng và chính xác.
-## 📝 9. Poster Nhóm 12
+## 📝 9. Poster Nhóm 5
   <p align="center">
         <img src="poster.png"/>
     </p>
