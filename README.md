@@ -171,6 +171,25 @@ Module cao cấp hỗ trợ tự động hóa các nghiệp vụ tài chính ph�
 <img src="báo cáo.jpg" alt="Báo cáo Pivot Khấu hao" width="800"/>
 </p>
 
+Hệ thống Dashboard phân tích trực quan
+Để hỗ trợ ban lãnh đạo trong việc ra quyết định, hệ thống cung cấp các biểu đồ phân tích xu hướng và cơ cấu tài sản tự động:
+
+<p align="center">
+<img src="tròn.jpg" alt="Biểu đồ tròn cơ cấu tài sản" width="800"/>
+</p>
+<p align="center">
+<img src="cột.jpg" alt="Biểu đồ cột thống kê bản ghi" width="800"/>
+</p>
+<p align="center">
+<img src="đường.jpg" alt="Biểu đồ đường theo dõi biến động" width="800"/>
+</p>
+
+Phân tích cơ cấu (Pie Chart): Minh họa tỉ trọng các loại tài sản đang vận hành, giúp nhận diện nhanh chóng các nhóm tài sản có giá trị lớn hoặc số lượng lớn.
+
+Thống kê mật độ (Bar Chart): Theo dõi số lượng bản ghi tài sản trên từng danh mục cụ thể, hỗ trợ việc phân bổ nguồn lực và quản lý danh mục hiệu quả.
+
+Theo dõi xu hướng (Line/Area Chart): Trực quan hóa biến động dữ liệu và xu hướng khấu hao theo thời gian, giúp dự báo các điểm rơi tài chính và nhu cầu mua sắm thay thế trong tương lai.
+
 
 Quản lý chứng từ gốc: Liên kết trực tiếp hóa đơn mua tài sản (Invoice) để xác lập nguyên giá, ngày mua và các sắc thuế đi kèm làm căn cứ hạch toán.
 
