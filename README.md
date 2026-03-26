@@ -8,9 +8,9 @@
 </h2>
 <div align="center">
     <p align="center">
-        <img src="images/aiotlab_logo.png" alt="AIoTLab Logo" width="170"/>
-        <img src="images/fitdnu_logo.png" alt="AIoTLab Logo" width="180"/>
-        <img src="images/dnu_logo.png" alt="DaiNam University Logo" width="200"/>
+        <img src="aiotlab_logo.png" alt="AIoTLab Logo" width="170"/>
+        <img src="fitdnu_logo.png" alt="AIoTLab Logo" width="180"/>
+        <img src="dnu_logo.png" alt="DaiNam University Logo" width="200"/>
     </p>
 
 [![AIoTLab](https://img.shields.io/badge/AIoTLab-green?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
@@ -133,10 +133,10 @@ Người sử dụng truy cập theo đường dẫn _http://localhost:8069/_ đ
 Module Quản lý nhân sự đóng vai trò là nền tảng dữ liệu gốc, giúp thiết lập cơ cấu tổ chức và quản lý thông tin nhân sự để phục vụ việc gán trách nhiệm sở hữu tài sản.
 
 <p align="center">
-<img src="images/image_236b3a.png" alt="Danh sách nhân viên" width="800"/>
+<img src="nhân sự.jpg" alt="Danh sách nhân viên" width="800"/>
 </p>
 <p align="center">
-<img src="images/image_236b20.png" alt="Chi tiết hồ sơ nhân viên" width="800"/>
+<img src="thêm nhân sự.jpg" alt="Chi tiết hồ sơ nhân viên" width="800"/>
 </p>
 
 Quản lý thông tin nhân viên: Lưu trữ đầy đủ dữ liệu cá nhân bao gồm mã định danh, họ tên, ngày sinh, quê quán, email và ảnh chân dung.
@@ -149,10 +149,10 @@ Tích hợp quản lý tài sản: Thiết lập các Tab chuyên biệt (Tài s
 Đây là module cốt lõi cho phép doanh nghiệp theo dõi toàn bộ vòng đời của tài sản từ khâu nhập kho, cấp phát đến khi thanh lý.
 
 <p align="center">
-<img src="images/image_236b3e.jpg" alt="Giao diện Kanban QR Code" width="800"/>
+<img src="QR.jpg" alt="Giao diện Kanban QR Code" width="800"/>
 </p>
 <p align="center">
-<img src="images/image_236b59.jpg" alt="Danh sách tài sản" width="800"/>
+<img src="tài sản theo người sử dụng.jpg" alt="Danh sách tài sản" width="800"/>
 </p>
 
 Quản lý danh mục tài sản: Hệ thống hóa tài sản theo mã, tên và loại (Thiết bị CNTT, Máy chủ, Nội thất, Phương tiện vận tải...).
@@ -166,15 +166,11 @@ Kiểm soát trách nhiệm: Ghi nhận chi tiết nhân viên sử dụng và v
 8.3. Module Tích hợp Kế toán & Tài chính (dnu_accounting_asset)
 Module cao cấp hỗ trợ tự động hóa các nghiệp vụ tài chính phức tạp, giúp liên thông dữ liệu từ chứng từ gốc đến sổ cái kế toán.
 
+
 <p align="center">
-<img src="images/image_a513e8.png" alt="Hóa đơn tài sản" width="800"/>
+<img src="báo cáo.jpg" alt="Báo cáo Pivot Khấu hao" width="800"/>
 </p>
-<p align="center">
-<img src="images/image_236b7f.jpg" alt="Báo cáo Pivot Khấu hao" width="800"/>
-</p>
-<p align="center">
-<img src="images/image_236b5d.jpg" alt="Dashboard Tài chính" width="800"/>
-</p>
+
 
 Quản lý chứng từ gốc: Liên kết trực tiếp hóa đơn mua tài sản (Invoice) để xác lập nguyên giá, ngày mua và các sắc thuế đi kèm làm căn cứ hạch toán.
 
@@ -185,6 +181,5 @@ Báo cáo Pivot đa chiều: Cung cấp bảng phân tích tài chính chuyên s
 Dashboard phân tích trực quan: Hệ thống biểu đồ tròn, cột và đường giúp ban lãnh đạo theo dõi cơ cấu tài sản và biến động chi phí một cách nhanh chóng và chính xác.
 ## 📝 9. Poster Nhóm 12
   <p align="center">
-        <img src="<img width="579" height="837" alt="image" src="https://github.com/user-attachments/assets/ba3a3487-019f-4714-a94a-04f1956bca9a" />
-" alt="class_diagram" width="800"/>
+        <img src="poster.png"/>
     </p>
