@@ -11,7 +11,7 @@ Hệ thống bao gồm hệ sinh thái các module liên kết chặt chẽ vớ
 * **`dnu_accounting_asset`** (Extension): Model kế thừa siêu cấu trúc, mang đến **Tự động hóa Mức 2 và Mức 3** liên quan đến hạch toán và khấu hao dài hạn.
 * **`dnu_asset` & `nhan_su`** (Base): Khung sườn quản trị cơ sở độc lập gồm chứng chỉ, cấp bậc nhân viên và dữ liệu định danh vật lý sơ cấp.
 
-## ✨ Các Tính năng Đột phá (Mức 1 đến Mức 3)
+## ✨ Các Tính năng Đột phá (Mức 1 đến Mức 2)
 1. **Tích hợp HRM & Kế toán (Mức 1):** Ràng buộc bàn giao tài sản dựa trên trạng thái nghỉ việc của nhân viên quản lý một cách linh hoạt qua REST Request.
 2. **Khấu hao & Bút toán Tự động (Mức 2):** 
    - Tự động sinh bảng Kế hoạch Khấu hao dự kiến kéo dài nhiều năm.
